@@ -8,13 +8,11 @@ class DataSet:
 		self.__features = []
 		self.__labels = []
 		self.__items = {}
-		
+
 		if fname is not None:
 			self.load(fname)
 
 	def load(self, filename):
-		#print '****'
-		#print filename
 		# If the file exists, open it for reading and store its contents in memory, then close it
 		try:
 			#file = open('census/datagen/' + filename, 'r')
@@ -41,7 +39,7 @@ class DataSet:
 
 		# Now remove any rows that don't have the expected number of features
 		# Temp measure for "Both" dataset as some users have no network data
-		self.remove_problematic_rows()
+		# self.remove_problematic_rows()
 
 	def remove_problematic_rows(self):
 		try:
@@ -344,13 +342,7 @@ class DataSet:
 						new_feature_vector.append(orig_features[feature_index])
 				# Now replace the items features by the new one
 				self.__items[item] = (new_feature_vector, label)
-			
-				
-			
-					
-				
-				
-			
+
 		else:
 			raise ValueError("Feature indices must be a list")
 		

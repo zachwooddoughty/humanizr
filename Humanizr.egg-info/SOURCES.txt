@@ -1,0 +1,7 @@
+README.md
+setup.py
+Humanizr.egg-info/PKG-INFO
+Humanizr.egg-info/SOURCES.txt
+Humanizr.egg-info/dependency_links.txt
+Humanizr.egg-info/requires.txt
+Humanizr.egg-info/top_level.txt

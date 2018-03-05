@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!tmpusr/bin/env python
 # encoding: utf-8
 """
 libsvm_trainer.py
@@ -20,7 +20,9 @@ from dataset import DataSet
 import logging
 import matplotlib.pyplot as plt
 import tempfile
- 
+
+logging.basicConfig(filename="/tmp/asd.log",filemode='a+',level=logging.DEBUG)
+
 class LibSVMTrainer(Trainer):
 	_file_suffix=os.getpid()
 	
@@ -63,7 +65,7 @@ class LibSVMTrainer(Trainer):
 		the data set.
 		"""
 		logging.debug ('Training on dataset ')
-		logging.debug (data_set.get_items())
+		# logging.debug (data_set.get_items())
 		'''
 		`train' Usage
 		=============
@@ -133,12 +135,13 @@ class LibSVMTrainer(Trainer):
 		# call train 
 		#p=subprocess.Popen(args,stdout=subprocess.PIPE)
 		fnull=open(os.devnull,'w')
-		p=subprocess.call(args,stdout=fnull)
-		fnull.close()
+
+		# p=subprocess.call(args,stdout=fnull)
+		# fnull.close()
 		
 		# TODO the persistance of models
 		learned_model_object=LibSVMModel(self.trainer_settings['temporary_folder_location'],self.trainer_settings['model_filename'])
-		#logging.debug learned_model_object.learned_model
+		logging.debug(learned_model_object)
 		#LibSVMTrainer._file_suffix+=1
 		
 		return(learned_model_object)

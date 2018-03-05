@@ -11,7 +11,7 @@ class CustomInstallCommand(install):
         os.chdir('src/ml2/algs/libsvm-3.1')
         os.system('make clean')
         os.system('make all')
-        print "End of libsvm installation"
+        print "End of libsvm installation \n\n\n\n\n\n\n\n\n\n\n\n"
         os.chdir('../../../..')
         install.run(self)
 

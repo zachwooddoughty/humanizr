@@ -28,7 +28,8 @@ argparser.add_argument('tweet_dir',
 
 argparser.add_argument('--debug',
                     action='store_true',
-                    help='enable debug mode')
+                    help='enable debug mode',
+                    default = False)
 
 args = argparser.parse_args()
 

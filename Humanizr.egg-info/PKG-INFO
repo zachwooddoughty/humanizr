@@ -1,0 +1,11 @@
+Metadata-Version: 1.0
+Name: Humanizr
+Version: 1.0.0
+Summary: A tool for classifying Twitter users as Organizations or Personal accounts. Includes feature extraction and SVM classification.
+Home-page: http://networkdynamics.org/resources/software/humanizr
+Author: James McCorriston
+Author-email: james.mccorriston@mail.mcgill.ca
+License: BSD
+Description-Content-Type: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN

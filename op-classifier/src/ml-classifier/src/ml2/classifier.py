@@ -6,7 +6,7 @@ import argparse
 import sys
 import os
 import json
-
+import pprint
 
 class Classifier:
 	"""
@@ -71,11 +71,11 @@ class InvalidModelFileToReadException(Exception):
 	
 		
 if __name__ == '__main__':
-	
+
 	from trainer_factory import TrainerFactory
 	from dataset import DataSet
 	import sys
-	
+
 	parser = argparse.ArgumentParser(prog='classifier',description='Classify using a machine learning algorithm.')
 	parser.add_argument('settings_file', help='Settings file for configuring the machine learning algorithm')
 	parser.add_argument('test_ds_file', help='Test Dataset file ')
@@ -85,28 +85,24 @@ if __name__ == '__main__':
 	parser.add_argument('-o','--output_file',action='store',default=None,help='output file to save')
 	parser.add_argument('-d','--debug',action='store_true',help='Debug mode')
 	
-	
-	
+
 	args=parser.parse_args()
-	
 	# read in arguments
+	pprint.pprint(args)
 	settings_file = args.settings_file
 	training_ds_file = args.training_file
 	test_ds_file = args.test_ds_file
 	model_file=args.model_file
-	
+
 	# Redirecting the stdout to the output file.
-	if(args.output_file<>None):
-		sys.stdout=open(args.output_file,'w')
-	
-	
-	
-	
+	# if (args.output_file <> None):
+	# 	sys.stdout = open(args.output_file, 'w')
+
 	if(args.debug):
 		logging.basicConfig(level=logging.DEBUG,filename='classifier_log_'+os.path.basename(test_ds_file)+'_'+str(os.getpid())+'.log')
 	else:
 		logging.basicConfig(level=logging.INFO)
-	#
+
 	training_file_provided=False
 	if(training_ds_file <> None):
 		#print(training_ds_file)
@@ -122,8 +118,7 @@ if __name__ == '__main__':
 		if(os.path.exists(model_file)==False):
 			raise InvalidModelFileToReadException
 			
-			
-		
+
 	
 	# load the data set
 	if(training_file_provided):
@@ -137,7 +132,7 @@ if __name__ == '__main__':
 		# But the model file contains info about normalization min_values
 		observed_min_values=read_model_file_normalization_min_values(model_file)
 		
-	
+
 	test_data_set=DataSet(test_ds_file)
 	#test_data_set.normalize_to_unit_vector()
 	test_data_set.log_normalize_using_training_set_values(observed_min_values)
@@ -155,7 +150,7 @@ if __name__ == '__main__':
 	test_data_set.normalize_to_unit_vector()
 	#training_data_set.rescale_feature_values(1000)
 	#test_data_set.rescale_feature_values(1)
-	
+
 	test_data_set.log_normalize_using_training_set_values(observed_min_values)
 	
 	'''	
@@ -171,16 +166,18 @@ if __name__ == '__main__':
 		
 	
 	else: # No training file provided. So model_file is used to get the model
-		cl = Classifier(trainer,None,test_data_set,use_saved_model=True,saved_model_file=model_file)
+		cl = Classifier(trainer, None, test_data_set,use_saved_model=True,saved_model_file=model_file)
 	
 	cl.classify()
 	
 	translate = {'1':'org', '2':'per'}
 	# print out some statistics
-	for uid,label in cl.predictions().items():
-		print '%s\t%s' % (uid, translate[label])
-	#print cl.accuracy()
-	#print cl.prediction_composition()
+	# for uid,label in cl.predictions().items():
+	# 	print '%s\t%s' % (uid, translate[label])
+
+	print "Accuracy ", cl.accuracy()
+	print cl.prediction_composition()
+	# print(cl.predictions())
 		
 	'''
 	'''

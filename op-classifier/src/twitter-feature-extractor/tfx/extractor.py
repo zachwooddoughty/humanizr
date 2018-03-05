@@ -2,6 +2,7 @@ import json
 import logging
 import os
 import time
+import pprint
 
 from tfx import errors, features, users, utils
 
@@ -23,16 +24,14 @@ class FeatureExtractor:
 
         # Initialise the user set
         user_set = users.UserSet(conf, tweet_dir)
-
         # Load the names of all the default features from tfx/features.py
         # Anything that doesn't start with an underscore or end with a base
         default_features = filter(utils.is_a_feature, dir(features))
-
         enabled_features = []
         default_params = conf.features.get('default_params', {})
-
         # Now load all the features
         for feature_name, params in conf.features['enabled'].iteritems():
+
             # First try to get it from the default features
             if feature_name in default_features:
                 feature_class = getattr(features, feature_name)
@@ -42,13 +41,14 @@ class FeatureExtractor:
             # If that doesn't work, try to import it directly
             # Must be an instance of FeatureBase!
             # Do this later
-
+        # pprint.pprint((enabled_features))
         # Now figure out all the entities we need
         needed_entities = []
         for enabled_feature in enabled_features:
             needed_entities.extend(enabled_feature.get_needed_entities())
 
         needed_entities = set(needed_entities)
+
         # Now, save the list of entities needed
         user_set.process_entities(needed_entities)
 
@@ -75,6 +75,7 @@ class FeatureExtractor:
             # For features (like k-top) that need them all first
             if feature.needs_users:
                 features_needing_users.append(feature)
+
 
         # Initialise things as necessary (can't avoid this)
         for label in user_set.labels:

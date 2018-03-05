@@ -2,7 +2,7 @@ import logging
 
 from tfx import database, entities, errors, utils
 
-
+import pprint
 tweet_extractors = []
 profile_extractors = []
 other_extractors = []
@@ -72,11 +72,13 @@ class UserSet:
         self.user_ids = {}
         self.limit = conf.limit
 
+
         for label, label_id in self.labels.iteritems():
             self.user_ids[label] = self.connection.get_users_for_label(label_id)
 
         self.ignore_number = conf.ignore_number
         self.ignore_start = conf.ignore_start
+
 
     def get_users(self, label):
         """

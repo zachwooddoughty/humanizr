@@ -5,6 +5,7 @@ import os
 import json
 import datetime
 import random
+import pprint
 
 from tfx import errors
 
@@ -23,7 +24,6 @@ class Connection:
         if label == -1:
             self.cursor.execute('SELECT distinct user_id FROM completed_seed_users')
             user_ids = [row[0] for row in self.cursor.fetchall()]
-            print(len(user_ids))
             self.seeds = True
         elif label == -2:
             user_ids = []
@@ -184,8 +184,20 @@ class JSONFiles:
         # Indexed by user id
         self.tweets = {}
 
-        json_files = os.listdir(tweet_dir)
-        json_files = [fn for fn in json_files if fn.endswith(".json")]
+        list_of_files = os.listdir(tweet_dir)
+        json_files = [fn for fn in list_of_files if fn.endswith(".json")]
+        text_files = [fn for fn in list_of_files if fn.endswith(".txt")]
+        with open(tweet_dir + '/' +text_files[0], 'r') as f:
+            content = f.readlines()
+        organizations = [c.strip() for c in content]
+
+        with open(tweet_dir + '/' +text_files[1], 'r') as f:
+            content = f.readlines()
+        individuals = [c.strip() for c in content]
+
+
+        # pprint.pprint(text_files)
+        # pprint.pprint(json_files)
         if len(json_files) < 1:
             logging.error('Empty tweet JSON directory.')
             exit()
@@ -199,7 +211,8 @@ class JSONFiles:
                     except:
                         continue
                     user_id = tweet_json['user']['id_str']
-                    label = random.randint(1, 2)
+                    # label = random.randint(0, 1)
+                    label = 2 - int(user_id in organizations)
                     if label not in self.profiles:
                         self.profiles[label] = {}
                     if user_id not in self.profiles[label]:
@@ -215,13 +228,13 @@ class JSONFiles:
             except ValueError as e:
                 print(str(e))
                 logging.warn("Invalid JSON file: %s" % f)
-
         max_count = 0
         for uid in self.tweets:
             if len(self.tweets[uid]) > max_count:
                 max_count = len(self.tweets[uid])
-        print 'MAX NUMBER OF TWEETS FOR ONE USER: %d' % max_count
-        print 'NUMBER OF USERS: %d' % len(self.tweets)
+        print('MAX NUMBER OF TWEETS FOR ONE USER: %d' % max_count)
+        print('NUMBER OF USERS: %d' % len(self.tweets))
+        print("Users for class 1 and  2 : {}, {}".format(len(self.profiles[1]),len(self.profiles[2])))
 
     def get_users_for_label(self, label):
         return self.profiles[label]

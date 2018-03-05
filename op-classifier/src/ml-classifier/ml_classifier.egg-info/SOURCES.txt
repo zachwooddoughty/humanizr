@@ -1,10 +1,9 @@
+README.md
 setup.py
 ml_classifier.egg-info/PKG-INFO
 ml_classifier.egg-info/SOURCES.txt
 ml_classifier.egg-info/dependency_links.txt
 ml_classifier.egg-info/top_level.txt
-scripts/classifier
-scripts/xvalidator
 src/ml2/__init__.py
 src/ml2/analyze_xvalidator_output_file.py
 src/ml2/classifier.py

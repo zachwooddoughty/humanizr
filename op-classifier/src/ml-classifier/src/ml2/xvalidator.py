@@ -17,8 +17,7 @@ class XValidator:
 		self._num_folds = num_folds
 		self._predictions=[]
 		self._models=[]
-		self._folds=[]
-		
+
 	
 	def generate_folds(self):
 		"""
@@ -66,17 +65,20 @@ class XValidator:
 		
 		for (fold,inverse_fold) in self.folds():
 			# get the model
+			print inverse_fold
+			logging.debug(len(self._models))
+
 			model = self._trainer.train(inverse_fold)
 			self._models.append(model)
-			
+			logging.debug(len(self._models))
 			pred = model.predict(fold)
-			'''
-			print '******: Predictions returned'
-			print pred.predictions()
-			print 'Size '+str(pred.size())
-			print 'Count '+str(pred.predicted_count())
-			'''
-			print 'Accuracy (computed) '+str(pred.accuracy())
+
+			# print '******: Predictions returned'
+			# print pred.predictions()
+			# print 'Size '+str(pred.size())
+			# print 'Count '+str(pred.predicted_count())
+            #
+			# print 'Accuracy (computed) '+str(pred.accuracy())
 			
 			self._predictions.append(pred)
 		for pred in self._predictions:
@@ -102,7 +104,7 @@ if __name__ == '__main__':
 	parser.add_argument('settings_file', help='Settings file for configuring the machine learning algorithm')
 	parser.add_argument('ds_file', help='Dataset file')
 	parser.add_argument('num_folds', help='Number of folds')
-	parser.add_argument('-d','--debug',action='store_true',help='Debug mode')
+	parser.add_argument('-d','--debug',action='store_true',help='Debug mode', default=True)
 	
 	
 	args=parser.parse_args()
@@ -112,7 +114,7 @@ if __name__ == '__main__':
 	ds_file = args.ds_file
 	num_folds = int(args.num_folds)
 	
-	print(ds_file)
+	print(args)
 	if(args.debug):
 		logging.basicConfig(level=logging.DEBUG,filename='xvalidator_log_'+os.path.basename(ds_file)+'_'+str(os.getpid())+'.log')
 	else:
@@ -132,7 +134,8 @@ if __name__ == '__main__':
 	tfact = TrainerFactory()
 	trainer = tfact.make_trainer(settings_file)
 	
-	# run the cross validation 
+	# run the cross validation
+	print(trainer,data_set,num_folds)
 	xv = XValidator(trainer,data_set,num_folds)
 	xv.run_xvalid()
 	

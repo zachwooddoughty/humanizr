@@ -6,7 +6,7 @@ setup(
     version = '0.0.3',
     scripts = ['bin/tfx'],
     packages = ['tfx'],
-    package_dir = {'tfx': 'src/tfx'},
+    package_dir = {'tfx': 'tfx'},
     package_data = {'tfx': ['resources/*']},
 
     author = 'Wendy Liu',
