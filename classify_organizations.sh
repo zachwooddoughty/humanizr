@@ -1,5 +1,7 @@
 #!/bin/bash
 
+source activate cv
+
 usage() {
     echo "Usage: $0 [-h] [-o] tweet_dir"
     echo "  -h  Help. Display this message and quit."

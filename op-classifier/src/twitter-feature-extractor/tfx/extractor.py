@@ -112,5 +112,4 @@ class FeatureExtractor:
                 }
 
         #print "Saving results to file %s" % output_file
-
         json.dump(data, open(output_file, 'wt'), indent=4)

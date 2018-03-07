@@ -89,6 +89,7 @@ if __name__ == '__main__':
 	args=parser.parse_args()
 	# read in arguments
 	pprint.pprint(args)
+	print("\n\n\n\n")
 	settings_file = args.settings_file
 	training_ds_file = args.training_file
 	test_ds_file = args.test_ds_file
