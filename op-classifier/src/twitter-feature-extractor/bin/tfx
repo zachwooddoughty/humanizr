@@ -10,6 +10,7 @@ import argparse
 import datetime
 import json
 import logging
+import os
 
 from tfx import confparse, extractor, utils, errors
 
@@ -47,6 +48,7 @@ Make sure the conf file is valid
 
 try:
     conf = confparse.ConfParser()
+    conf.output_file = os.path.join(args.tweet_dir, "features.json")
     conf.load(args.conf_file)
 except errors.ConfFileError as error:
     argparser.error("Invalid configuration file: %s" % error)

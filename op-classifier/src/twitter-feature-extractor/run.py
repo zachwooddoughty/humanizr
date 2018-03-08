@@ -46,7 +46,8 @@ try:
     conf = confparse.ConfParser()
     conf.load(args.conf_file)
 except errors.ConfFileError as error:
-    argparser.error("Invalid configuration file: %s" % error)
+    argparser.error("Invalid configuration file: {}, ({})".format(
+        error, args.conf_file))
 
 
 """

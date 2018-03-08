@@ -35,7 +35,7 @@ class DataSet:
 			except (KeyError, ValueError):
 				raise BadlyFormattedFile
 		except IOError:
-			raise FileNotFoundError
+			raise FileNotFoundError("Couldn't find {}".format(filename))
 
 		# Now remove any rows that don't have the expected number of features
 		# Temp measure for "Both" dataset as some users have no network data
@@ -180,8 +180,8 @@ class DataSet:
 			return
 		feature_vector_length=len(self.get_features(self.get_items()[0]))
 		if(feature_vector_length<>len(observed_min_values)):
-				#print feature_vector_length
-				#print len(observed_min_values)
+				print(feature_vector_length)
+				print(len(observed_min_values))
 				raise FeatureLengthMismatchException
 		#
 		for item in self.get_items():

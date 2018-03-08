@@ -117,6 +117,7 @@ if __name__ == '__main__':
 	print(args)
 	if(args.debug):
 		logging.basicConfig(level=logging.DEBUG,filename='xvalidator_log_'+os.path.basename(ds_file)+'_'+str(os.getpid())+'.log')
+		logging.basicConfig(level=logging.DEBUG)
 	else:
 		logging.basicConfig(level=logging.INFO)
 		
@@ -146,11 +147,11 @@ if __name__ == '__main__':
 	avg_accuracy=sum([pred.accuracy() for pred in xv.predictions()]) / num_preds
 	#print 'Average sensitivity:',avg_sense
 	#print 'Average specificity:',avg_spec
-	print 'Average accuracy:',avg_accuracy
+	print('Average accuracy:',avg_accuracy)
 	
 	# label based sensitivity
 	for pred in xv.predictions():
-		print pred.sensitivity_by_label()
+		print(pred.sensitivity_by_label())
 		
 	
 		

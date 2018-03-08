@@ -187,13 +187,17 @@ class JSONFiles:
         list_of_files = os.listdir(tweet_dir)
         json_files = [fn for fn in list_of_files if fn.endswith(".json")]
         text_files = [fn for fn in list_of_files if fn.endswith(".txt")]
+        if len(text_files) < 2:
+            logging.error('Tweet dir has no text files')
+            exit()
+
         with open(tweet_dir + '/' +text_files[0], 'r') as f:
             content = f.readlines()
-        organizations = [c.strip() for c in content]
+        organizations = {c.strip(): 1 for c in content}
 
         with open(tweet_dir + '/' +text_files[1], 'r') as f:
             content = f.readlines()
-        individuals = [c.strip() for c in content]
+        individuals = {c.strip(): 1 for c in content}
 
 
         # pprint.pprint(text_files)
@@ -202,10 +206,16 @@ class JSONFiles:
             logging.error('Empty tweet JSON directory.')
             exit()
 
+        count = 0
+        # Current scrape has 4.7M tweets
+        report_every = 100000
         for f in json_files:
             try:
                 f = open(tweet_dir + '/' + f, 'r')
                 for line in f:
+                    count += 1
+                    if count % report_every == 0:
+                      logging.info("loaded {:3.1f}/4.7M json lines".format(count // 1e6))
                     try:
                         tweet_json = json.loads(line.strip())
                     except:

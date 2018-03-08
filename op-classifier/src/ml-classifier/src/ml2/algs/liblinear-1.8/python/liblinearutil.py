@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import os
 from liblinear import *
 
 def svm_read_problem(data_file_name):
@@ -30,6 +31,8 @@ def load_model(model_file_name):
 	
 	Load a LIBLINEAR model from model_file_name and return.
 	"""
+    print("Looking for {} and it does{} exist".format(
+        model_file_name, "" if os.path.exists(model_file_name) else "n't"))
 	model = liblinear.load_model(model_file_name)
 	if not model: 
 		print("can't open model file %s" % model_file_name)

@@ -18,10 +18,11 @@ class ResultParser:
             result = open_files[filename]
         else:
             try:
-                result_file = open('/'.join(__file__.split('/')[:-1]) + '/' + filename, 'rt')
+                full_path = '/'.join(__file__.split('/')[:-1]) + '/' + filename
+                result_file = open(full_path, 'rt')
             except IOError:
                 raise errors.ResultFileError("The specified result file '%s' "
-                                             "cannot be read." % filename)
+                                             "cannot be read." % full_path)
             try:
                 result = json.load(result_file)
             except ValueError:

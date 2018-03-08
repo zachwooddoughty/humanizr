@@ -1,4 +1,4 @@
-#!tmpusr/bin/env python
+
 # encoding: utf-8
 """
 libsvm_trainer.py
@@ -42,7 +42,8 @@ class LibSVMTrainer(Trainer):
 		#if(os.path.exists(self.trainer_settings['temporary_folder_location'])==False):
 		#	os.mkdir(self.trainer_settings['temporary_folder_location'])
 
-		self.trainer_settings['temporary_folder_location']=tempfile.mkdtemp()
+		# self.trainer_settings['temporary_folder_location'] = tempfile.mkdtemp()
+		self.trainer_settings['temporary_folder_location'] = "/export/b20/zach/libs/humanizr/tmp_models"
 
 		
 		
@@ -51,7 +52,7 @@ class LibSVMTrainer(Trainer):
 		
 
 		self.trainer_settings['model_filename']='learned_model_file.libsvm'+'_'+str(LibSVMTrainer._file_suffix)
-		logging.debug('Temporary folder:' +self.trainer_settings['temporary_folder_location'])
+		logging.debug('Temporary folder: ' +self.trainer_settings['temporary_folder_location'])
 	#
 	def load_model(self,saved_model_file):
 		"""
@@ -129,19 +130,20 @@ class LibSVMTrainer(Trainer):
 		
 		model_file=os.path.join(self.trainer_settings['temporary_folder_location'],self.trainer_settings['model_filename'])
 		args.append(model_file)
-		logging.debug (args)
+		logging.debug("zach LibSVM args for call which is commented out: {}".format(args))
 		#logging.debug 'args for train'
 		#logging.debug args
 		# call train 
 		#p=subprocess.Popen(args,stdout=subprocess.PIPE)
 		fnull=open(os.devnull,'w')
 
-		# p=subprocess.call(args,stdout=fnull)
+        # NOTE zach uncommented this line and now the models actually train -_-
+		p=subprocess.call(args,stdout=fnull)
 		# fnull.close()
 		
 		# TODO the persistance of models
 		learned_model_object=LibSVMModel(self.trainer_settings['temporary_folder_location'],self.trainer_settings['model_filename'])
-		logging.debug(learned_model_object)
+		logging.debug("learned model: {}".format(learned_model_object))
 		#LibSVMTrainer._file_suffix+=1
 		
 		return(learned_model_object)

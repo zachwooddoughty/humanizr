@@ -27,6 +27,7 @@ class TrainerFactory:
 		#  build the trainer object associated with the trainer_class
 		class_name=self.settings['trainer_class']
 		
+        # TODO wow this is awful
 		trainer = eval(class_name+'()')
 		
 		
